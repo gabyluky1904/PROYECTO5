@@ -1,0 +1,390 @@
+<html><head><base href="https://noticias-new-pro.com/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NoticiasNewPro - Noticias Globales Automatizadas</title>
+<style>
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --text-color: #333;
+  --bg-color: #f9f9f9;
+  --card-bg: #ffffff;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme {
+  --primary-color: #2980b9;
+  --secondary-color: #27ae60;
+  --text-color: #f4f4f4;
+  --bg-color: #2c3e50;
+  --card-bg: #34495e;
+  --shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+}
+
+h1 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.theme-toggle, .country-select {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.theme-toggle:hover, .country-select:hover {
+  background-color: var(--secondary-color);
+}
+
+.search-bar {
+  display: flex;
+  margin: 20px 0;
+}
+
+.search-bar input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px 0 0 5px;
+  font-size: 16px;
+}
+
+.search-bar button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: var(--secondary-color);
+}
+
+.news-carousel {
+  margin-bottom: 30px;
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+}
+
+.carousel-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-item.active {
+  opacity: 1;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 20px;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.news-card {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.news-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.news-card-content {
+  padding: 20px;
+}
+
+.news-card h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+.news-card p {
+  margin-bottom: 15px;
+}
+
+.share-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.share-button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.share-button:hover {
+  background-color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .news-carousel {
+    height: 300px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>NoticiasNewPro</h1>
+    <div>
+      <select class="country-select" id="countrySelect">
+        <option value="all">Todos los países</option>
+        <option value="es">España</option>
+        <option value="mx">México</option>
+        <option value="fr">Francia</option>
+        <option value="de">Alemania</option>
+        <option value="it">Italia</option>
+        <option value="gb">Reino Unido</option>
+      </select>
+      <button class="theme-toggle" id="themeToggle">Cambiar tema</button>
+    </div>
+  </header>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar noticias...">
+    <button>Buscar</button>
+  </div>
+
+  <div class="news-carousel">
+    <div class="carousel-item active">
+      <img src="https://picsum.photos/1200/400?random=1" alt="Noticia destacada 1">
+      <div class="carousel-caption">
+        <h2>Titular de la noticia destacada 1</h2>
+        <p>Breve descripción de la noticia destacada 1</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://picsum.photos/1200/400?random=2" alt="Noticia destacada 2">
+      <div class="carousel-caption">
+        <h2>Titular de la noticia destacada 2</h2>
+        <p>Breve descripción de la noticia destacada 2</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://picsum.photos/1200/400?random=3" alt="Noticia destacada 3">
+      <div class="carousel-caption">
+        <h2>Titular de la noticia destacada 3</h2>
+        <p>Breve descripción de la noticia destacada 3</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="news-grid">
+    <div class="news-card">
+      <img src="https://picsum.photos/300/200?random=4" alt="Imagen de noticia 1">
+      <div class="news-card-content">
+        <h3>Titular de la noticia 1</h3>
+        <p>Breve descripción de la noticia 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <div class="share-buttons">
+          <button class="share-button" onclick="shareOnFacebook()">Compartir en Facebook</button>
+          <button class="share-button" onclick="shareOnWhatsApp()">Compartir en WhatsApp</button>
+        </div>
+      </div>
+    </div>
+    <div class="news-card">
+      <img src="https://picsum.photos/300/200?random=5" alt="Imagen de noticia 2">
+      <div class="news-card-content">
+        <h3>Titular de la noticia 2</h3>
+        <p>Breve descripción de la noticia 2. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <div class="share-buttons">
+          <button class="share-button" onclick="shareOnFacebook()">Compartir en Facebook</button>
+          <button class="share-button" onclick="shareOnWhatsApp()">Compartir en WhatsApp</button>
+        </div>
+      </div>
+    </div>
+    <div class="news-card">
+      <img src="https://picsum.photos/300/200?random=6" alt="Imagen de noticia 3">
+      <div class="news-card-content">
+        <h3>Titular de la noticia 3</h3>
+        <p>Breve descripción de la noticia 3. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+        <div class="share-buttons">
+          <button class="share-button" onclick="shareOnFacebook()">Compartir en Facebook</button>
+          <button class="share-button" onclick="shareOnWhatsApp()">Compartir en WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+const apiKeys = [
+  '4d6a3d044b96c592317f2ac4c21e379f',
+  '3LYmp1jJmJQUHgy85kXUi9Zhpl39cuqd',
+  '9be7c465bfb249c59f3e5470d2b76ff8'
+];
+let currentApiKeyIndex = 0;
+
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+const countrySelect = document.getElementById('countrySelect');
+
+themeToggle.addEventListener('click', () => {
+  body.classList.toggle('dark-theme');
+});
+
+countrySelect.addEventListener('change', () => {
+  fetchNews(countrySelect.value);
+});
+
+async function fetchNews(country = 'all') {
+  const apiKey = apiKeys[currentApiKeyIndex];
+  let url = `https://newsapi.org/v2/top-headlines?apiKey=${apiKey}`;
+  
+  if (country !== 'all') {
+    url += `&country=${country}`;
+  }
+
+  try {
+    const response = await axios.get(url);
+    displayNews(response.data.articles);
+  } catch (error) {
+    console.error('Error fetching news:', error);
+    if (error.response && error.response.status === 401) {
+      currentApiKeyIndex = (currentApiKeyIndex + 1) % apiKeys.length;
+      fetchNews(country);
+    }
+  }
+}
+
+function displayNews(articles) {
+  const newsGrid = document.querySelector('.news-grid');
+  newsGrid.innerHTML = '';
+
+  articles.forEach((article, index) => {
+    const newsCard = document.createElement('div');
+    newsCard.className = 'news-card';
+    newsCard.innerHTML = `
+      <img src="${article.urlToImage || 'https://picsum.photos/300/200?random=' + index}" alt="${article.title}">
+      <div class="news-card-content">
+        <h3>${article.title}</h3>
+        <p>${article.description || 'No description available'}</p>
+        <div class="share-buttons">
+          <button class="share-button" onclick="shareOnFacebook('${article.url}')">Compartir en Facebook</button>
+          <button class="share-button" onclick="shareOnWhatsApp('${article.url}')">Compartir en WhatsApp</button>
+        </div>
+      </div>
+    `;
+    newsGrid.appendChild(newsCard);
+  });
+
+  updateCarousel(articles.slice(0, 3));
+}
+
+function updateCarousel(articles) {
+  const carousel = document.querySelector('.news-carousel');
+  carousel.innerHTML = '';
+
+  articles.forEach((article, index) => {
+    const carouselItem = document.createElement('div');
+    carouselItem.className = `carousel-item ${index === 0 ? 'active' : ''}`;
+    carouselItem.innerHTML = `
+      <img src="${article.urlToImage || 'https://picsum.photos/1200/400?random=' + index}" alt="${article.title}">
+      <div class="carousel-caption">
+        <h2>${article.title}</h2>
+        <p>${article.description || 'No description available'}</p>
+      </div>
+    `;
+    carousel.appendChild(carouselItem);
+  });
+
+  startCarousel();
+}
+
+function startCarousel() {
+  const items = document.querySelectorAll('.carousel-item');
+  let currentItem = 0;
+
+  setInterval(() => {
+    items[currentItem].classList.remove('active');
+    currentItem = (currentItem + 1) % items.length;
+    items[currentItem].classList.add('active');
+  }, 5000);
+}
+
+function shareOnFacebook(url) {
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+}
+
+function shareOnWhatsApp(url) {
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`, '_blank');
+}
+
+// Iniciar la aplicación
+fetchNews();
+</script>
+</body></html>
